@@ -1,0 +1,137 @@
+ class Matriz
+    {
+        private int MAXF = 50;
+        private int MAXC = 50;
+        private int[,] x;
+        private int f;
+        private int c;
+
+        public Matriz()
+        {
+            x = new int[MAXF, MAXC];
+            f = 0;
+            c = 0;
+        }
+
+        public void cargar(int nf, int nc, int a, int b)
+        {
+            f = nf;
+            c = nc;
+            Random r = new Random();
+            for (int f1 = 1; f1 <= f; f1++)
+            {
+                for (int c1 = 1; c1 <= c; c1++)
+                {
+                    x[f1, c1] = r.Next(a, b + 1);
+                }
+            }
+        }
+
+        public string Descargar()
+        {
+            string s = "";
+            for (int f1 = 1; f1 <= f; f1++)
+            {
+                for (int c1 = 1; c1 <= c; c1++)
+                {
+                    s = s + x[f1, c1] + "\x0009";
+                }
+                s = s + "\x000d" + "\x000a";
+            }
+            return s;
+        }
+        public bool verifFibo(int ele)
+        {
+            int a, b, d;
+            int aux = ele;
+            a = 0; b = 1; d = a + b;
+            bool sw = false;
+            while ((aux > 0) && (sw == false))
+            {
+
+                a = b;
+                b = d;
+                if (ele == d)
+                {
+                    sw = true;
+                }
+                d = a + b;
+                aux--;
+            }
+            return sw;
+        }
+        public int contarFibo(int fila)
+        {
+            int fr = 0;
+            for (int c1 = 1; c1 <= c; c1++)
+            {
+                if (verifFibo(x[fila, c1]) == true)
+                {
+                    fr++;
+                }
+
+            }
+            return fr;
+        }
+        public void intercambiarelemento(int f1, int c1, int f2, int c2)
+        {
+            int aux = x[f1, c1];
+            x[f1, c1] = x[f2, c2];
+            x[f2, c2] = aux;
+        }
+        public void intercambiarFila(int f1, int f2)
+        {
+            for (int c1 = 1; c1 <= c; c1++)
+            {
+                intercambiarelemento(f1, c1, f2, c1);
+            }
+        }
+        public void ejercicio1()
+        {
+            for (int f1 = 1; f1 <= f; f1++)
+            {
+                for (int f2 = f1; f2 <= f; f2++)
+                {
+                    if (contarFibo(f1) < contarFibo(f2))
+                    {
+                        intercambiarFila(f1, f2);
+                    }
+                }
+                x[f1, c + 1] = contarFibo(f1);
+            }
+            c++;
+        }
+        public int frectrian(int ele)
+        {
+            int fr = 0;
+            for (int c1 = c; c1 >= 1 + 1; c1--)
+            {
+                for (int f1 = f - c1 + 1 + 1; f1 <= f; f1++)
+                {
+                    if ( x[f1, c1] == ele )
+                    {
+                        fr++;
+                    }
+                }
+            }
+            return fr;
+        }
+        public void ordenarTriang()
+        {
+            for (int c1 = c; c1 >= 1 + 1; c1--)
+            {
+                for (int f1 = f - c1 + 1 + 1; f1 <= f; f1++)
+                {
+                    for (int c2 = c; c2 >= 1 + 1; c2--)
+                    {
+                        for (int f2 = f - c2 + 1 + 1; f2 <= f; f2++)
+                        {
+                            if (frectrian(x[f1, c1]) <= frectrian(x[f2, c2]))
+                                intercambiarelemento(f1, c1, f2, c2);
+                        }
+                    }
+                }
+            }
+
+        }
+    }
